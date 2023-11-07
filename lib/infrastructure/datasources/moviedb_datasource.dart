@@ -1,9 +1,9 @@
 // Archivo para interactuar con The MovieDB
 
+import 'package:dio/dio.dart';
 import 'package:cinemapp/config/constants/environment.dart';
 import 'package:cinemapp/domain/datasources/movies_datasource.dart';
 import 'package:cinemapp/domain/entities/movie.dart';
-import 'package:dio/dio.dart';
 
 class MoviedbDatasource extends MoviesDatasource {
   final dio = Dio(BaseOptions(
