@@ -1,6 +1,6 @@
 // El repositorio es quien va a llamar el datasource
 import 'package:cinemapp/domain/entities/movie.dart';
 
-abstract class MovieRepository {
+abstract class MoviesRepository {
   Future<List<Movie>> getNowPlaying({int page = 1});
 }
