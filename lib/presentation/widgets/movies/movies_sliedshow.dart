@@ -31,9 +31,28 @@ class _Slide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      "https://via.placeholder.com/288x188",
-      fit: BoxFit.fill,
-    );
+    final decoration = BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: const [
+          BoxShadow(color: Colors.black, blurRadius: 10, offset: Offset(0, 10))
+        ]);
+
+    return Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: DecoratedBox(
+            decoration: decoration,
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(
+                  movie.backdropPath,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadinProgress) {
+                    if (loadinProgress != null) {
+                      return const DecoratedBox(
+                          decoration: BoxDecoration(color: Colors.black12));
+                    }
+                    return child;
+                  },
+                ))));
   }
 }
