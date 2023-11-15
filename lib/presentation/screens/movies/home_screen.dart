@@ -36,31 +36,55 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final slideShowMovies = ref.watch(moviesSlideshowProvider);
 
-    return Column(
-      children: [
-        const CustomAppbar(),
-        MoviesSlideshow(movies: slideShowMovies),
-        MovieHorizontalListview(
-          movies: nowPlayingMovies,
-          title: 'En cines',
-          subTitle: 'Lunes 20',
-          loadNextPage: () {
-            ref
-                .read(nowPlayingMoviesProvider.notifier)
-                .loadNextPage(); // Scroll infinito en la seccion 'En Cines
-          },
-        ),
-        MovieHorizontalListview(
-          movies: nowPlayingMovies,
-          title: 'En cines',
-          subTitle: 'Lunes 20',
-          loadNextPage: () {
-            ref
-                .read(nowPlayingMoviesProvider.notifier)
-                .loadNextPage(); // Scroll infinito en la seccion 'En Cines
-          },
-        ),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const CustomAppbar(),
+          MoviesSlideshow(movies: slideShowMovies),
+          MovieHorizontalListview(
+            movies: nowPlayingMovies,
+            title: 'En cines',
+            subTitle: 'Lunes 20',
+            loadNextPage: () {
+              ref
+                  .read(nowPlayingMoviesProvider.notifier)
+                  .loadNextPage(); // Scroll infinito en la seccion 'En Cines
+            },
+          ),
+          MovieHorizontalListview(
+            movies: nowPlayingMovies,
+            title: 'Proximamente',
+            subTitle: 'En este mes',
+            loadNextPage: () {
+              ref
+                  .read(nowPlayingMoviesProvider.notifier)
+                  .loadNextPage(); // Scroll infinito en la seccion 'En Cines
+            },
+          ),
+          MovieHorizontalListview(
+            movies: nowPlayingMovies,
+            title: 'Populares',
+            loadNextPage: () {
+              ref
+                  .read(nowPlayingMoviesProvider.notifier)
+                  .loadNextPage(); // Scroll infinito en la seccion 'En Cines
+            },
+          ),
+          MovieHorizontalListview(
+            movies: nowPlayingMovies,
+            title: 'Mejor calificadas',
+            subTitle: 'Desde siempre',
+            loadNextPage: () {
+              ref
+                  .read(nowPlayingMoviesProvider.notifier)
+                  .loadNextPage(); // Scroll infinito en la seccion 'En Cines
+            },
+          ),
+          const SizedBox(
+            height: 10,
+          )
+        ],
+      ),
     );
   }
 }
