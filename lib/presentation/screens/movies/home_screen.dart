@@ -30,6 +30,8 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
     ref.read(popularMoviesProvider.notifier).loadNextPage();
+    ref.read(upcomingMoviesProvider.notifier).loadNextPage();
+    ref.read(topRatedMoviesProvider.notifier).loadNextPage();
   }
 
   @override
@@ -37,6 +39,8 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final slideShowMovies = ref.watch(moviesSlideshowProvider);
     final popularMovies = ref.watch(popularMoviesProvider);
+    final upcomingMovies = ref.watch(upcomingMoviesProvider);
+    final topRatedMovies = ref.watch(topRatedMoviesProvider);
 
     return CustomScrollView(slivers: [
       const SliverAppBar(
@@ -61,12 +65,12 @@ class _HomeViewState extends ConsumerState<_HomeView> {
               },
             ),
             MovieHorizontalListview(
-              movies: nowPlayingMovies,
+              movies: upcomingMovies,
               title: 'Proximamente',
               subTitle: 'En este mes',
               loadNextPage: () {
                 ref
-                    .read(nowPlayingMoviesProvider.notifier)
+                    .read(upcomingMoviesProvider.notifier)
                     .loadNextPage(); // Scroll infinito en la seccion 'En Cines
               },
             ),
@@ -80,12 +84,12 @@ class _HomeViewState extends ConsumerState<_HomeView> {
               },
             ),
             MovieHorizontalListview(
-              movies: nowPlayingMovies,
+              movies: topRatedMovies,
               title: 'Mejor calificadas',
               subTitle: 'Desde siempre',
               loadNextPage: () {
                 ref
-                    .read(nowPlayingMoviesProvider.notifier)
+                    .read(topRatedMoviesProvider.notifier)
                     .loadNextPage(); // Scroll infinito en la seccion 'En Cines
               },
             ),
