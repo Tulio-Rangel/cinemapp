@@ -13,7 +13,7 @@ class MoviesSlideshow extends StatelessWidget {
 
     return SizedBox(
       height: 210,
-      width: double.infinity, // Toma todo el ancho posible
+      width: double.infinity, //* Toma todo el ancho posible
       child: Swiper(
         viewportFraction: 0.8,
         scale: 0.9,

@@ -61,7 +61,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
               loadNextPage: () {
                 ref
                     .read(nowPlayingMoviesProvider.notifier)
-                    .loadNextPage(); // Scroll infinito en la seccion 'En Cines
+                    .loadNextPage(); //* Scroll infinito en la seccion 'En Cines'
               },
             ),
             MovieHorizontalListview(
@@ -71,7 +71,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
               loadNextPage: () {
                 ref
                     .read(upcomingMoviesProvider.notifier)
-                    .loadNextPage(); // Scroll infinito en la seccion 'En Cines
+                    .loadNextPage(); //* Scroll infinito en la seccion 'Proximamente'
               },
             ),
             MovieHorizontalListview(
@@ -80,7 +80,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
               loadNextPage: () {
                 ref
                     .read(popularMoviesProvider.notifier)
-                    .loadNextPage(); // Scroll infinito en la seccion 'En Cines
+                    .loadNextPage(); //* Scroll infinito en la seccion 'Populares'
               },
             ),
             MovieHorizontalListview(
@@ -90,7 +90,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
               loadNextPage: () {
                 ref
                     .read(topRatedMoviesProvider.notifier)
-                    .loadNextPage(); // Scroll infinito en la seccion 'En Cines
+                    .loadNextPage(); //* Scroll infinito en la seccion 'Mejor calificadas'
               },
             ),
             const SizedBox(
