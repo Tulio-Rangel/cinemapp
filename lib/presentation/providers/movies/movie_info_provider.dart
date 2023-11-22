@@ -30,6 +30,7 @@ class MovieMapNotifier extends StateNotifier<Map<String, Movie>> {
   Future<void> loadMovie(String movieId) async {
     if (state[movieId] != null) return;
     final movie = await getMovie(movieId);
+    //* this state is the current state + new state, it means cache
     state = {...state, movieId: movie};
   }
 }
