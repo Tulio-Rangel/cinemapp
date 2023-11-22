@@ -1,6 +1,7 @@
 //* Archivo para interactuar con The MovieDB
 // *Implementacion (impl) del datasource
 
+import 'package:cinemapp/infrastructure/models/moviedb/movie_details.dart';
 import 'package:dio/dio.dart';
 
 import 'package:cinemapp/config/constants/environment.dart';
@@ -64,5 +65,22 @@ class MoviedbDatasource extends MoviesDatasource {
         await dio.get('/movie/upcoming', queryParameters: {'page': page});
 
     return _jsonToMovies(response.data);
+  }
+
+  @override
+  Future<Movie> getMovieById(String id) async {
+    //* Se obtiene la informacion de la pelicula
+    final response = await dio.get('/movie/$id');
+    //* Si el id no existe se lanza una excepcion
+    if (response.statusCode != 200)
+      throw Exception('Movie with id $id not found');
+
+    //* Se mapea la respuesta al modelo de MovieDetail
+    final movieDetails = MovieDetails.fromJson(response.data);
+
+    //* Se mapea la respuesta al modelo de Movie
+    final Movie movie = MovieMapper.movieDetailsToEntity(movieDetails);
+
+    return movie;
   }
 }
