@@ -42,6 +42,10 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
         //physics: const ClampingScrollPhysics(),
         slivers: [
           _CustomSliverAppBar(movie: movie),
+          SliverList(
+              delegate: SliverChildBuilderDelegate(
+                  (context, index) => _MovieDetails(movie: movie),
+                  childCount: 1))
         ],
       ),
     );
@@ -109,6 +113,79 @@ class _CustomSliverAppBar extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _MovieDetails extends StatelessWidget {
+  final Movie movie;
+  const _MovieDetails({required this.movie});
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final textStyle = Theme.of(context).textTheme;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //* Poster de la pelicula
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(
+                  movie.posterPath,
+                  width: size.width * 0.3,
+                ),
+              ),
+              //* Espacio entre poster y el overview+title
+              const SizedBox(
+                width: 10,
+              ),
+              //* Caja que contiene el overview+title
+              SizedBox(
+                width: (size.width - 40) * 0.7,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        movie.title,
+                        style: textStyle.titleLarge,
+                      ),
+                      Text(movie.overview)
+                    ]),
+              )
+            ],
+          ),
+        ),
+        //* Generos de la pelicula
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: Wrap(
+            children: [
+              ...movie.genreIds.map((gender) => Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    child: Chip(
+                      label: Text(gender),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                    ),
+                  ))
+            ],
+          ),
+        ),
+
+        //TODO: Mostrar actores
+
+        //* 100px para asegurar scroll
+        const SizedBox(
+          height: 100,
+        )
+      ],
     );
   }
 }
