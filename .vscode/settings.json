@@ -1,5 +1,5 @@
 {
     "CodeGPT.apiKey": "Ollama",
     "CodeGPT.model": "mistral",
-    "editor.inlineSuggest.showToolbar": "always"
+    "editor.inlineSuggest.showToolbar": "onHover"
 }
