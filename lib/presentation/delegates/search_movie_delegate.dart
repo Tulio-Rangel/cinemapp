@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:cinemapp/domain/entities/movie.dart';
 
 class SearchMovieDelegate extends SearchDelegate<Movie?> {
@@ -7,7 +8,14 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
   @override
   List<Widget>? buildActions(BuildContext context) {
-    return [const Text('buildActions')];
+    return [
+      //if (query.isNotEmpty)
+      FadeIn(
+          animate: query.isNotEmpty,
+          duration: const Duration(milliseconds: 200),
+          child: IconButton(
+              onPressed: () => query = '', icon: const Icon(Icons.clear))),
+    ];
   }
 
   @override
