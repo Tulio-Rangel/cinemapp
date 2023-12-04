@@ -1,3 +1,4 @@
+import 'package:cinemapp/config/helpers/human_formats.dart';
 import 'package:cinemapp/presentation/providers/providers.dart';
 import 'package:cinemapp/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +62,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
             MovieHorizontalListview(
               movies: nowPlayingMovies,
               title: 'En cines',
-              subTitle: 'Lunes 20',
+              subTitle: HumanFormats.date(DateTime.now()),
               loadNextPage: () {
                 ref
                     .read(nowPlayingMoviesProvider.notifier)
