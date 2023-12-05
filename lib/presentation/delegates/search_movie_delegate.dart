@@ -13,6 +13,8 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
       initialMovies; //* Lista de peliculas que fueron buscadas previamente
 
   StreamController<List<Movie>> debouncedMovies = StreamController.broadcast();
+  StreamController<bool> isLoadingStream = StreamController.broadcast();
+
   Timer? _debounceTimer;
 
   SearchMovieDelegate(
@@ -23,6 +25,8 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   }
 
   void _onQueryChanged(String query) {
+    isLoadingStream.add(true);
+
     if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
 
     //* Tiempo despues de que se deja de escribir para mandar la peticion
@@ -35,6 +39,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
       final movies = await searchMovies(query);
       initialMovies = movies;
       debouncedMovies.add(movies);
+      isLoadingStream.add(false);
     });
   }
 
@@ -66,12 +71,26 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
-      //if (query.isNotEmpty)
-      FadeIn(
-          animate: query.isNotEmpty,
-          duration: const Duration(milliseconds: 200),
-          child: IconButton(
-              onPressed: () => query = '', icon: const Icon(Icons.clear))),
+      StreamBuilder(
+          initialData: false,
+          stream: isLoadingStream.stream,
+          builder: (context, snapshot) {
+            if (snapshot.data ?? false) {
+              return SpinPerfect(
+                  duration: const Duration(seconds: 20),
+                  spins: 10,
+                  infinite: true,
+                  child: IconButton(
+                      onPressed: () => query = '',
+                      icon: const Icon(Icons.refresh_rounded)));
+            }
+            return FadeIn(
+                animate: query.isNotEmpty,
+                duration: const Duration(milliseconds: 200),
+                child: IconButton(
+                    onPressed: () => query = '',
+                    icon: const Icon(Icons.clear)));
+          })
     ];
   }
 
