@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cinemapp/config/helpers/human_formats.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
@@ -7,8 +9,29 @@ typedef SearchMoviesCallback = Future<List<Movie>> Function(String query);
 
 class SearchMovieDelegate extends SearchDelegate<Movie?> {
   final SearchMoviesCallback searchMovies;
+  StreamController<List<Movie>> debouncedMovies = StreamController.broadcast();
+  Timer? _debounceTimer;
 
   SearchMovieDelegate({required this.searchMovies});
+
+  void clearSteams() {
+    debouncedMovies.close();
+  }
+
+  void _onQueryChanged(String query) {
+    if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
+
+    //* Tiempo despues de que se deja de escribir para mandar la peticion
+    _debounceTimer = Timer(const Duration(milliseconds: 100), () async {
+      if (query.isEmpty) {
+        debouncedMovies.add([]);
+        return;
+      }
+
+      final movies = await searchMovies(query);
+      debouncedMovies.add(movies);
+    });
+  }
 
   @override
   String get searchFieldLabel => 'Buscar película';
@@ -28,7 +51,10 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-        onPressed: () => close(context, null),
+        onPressed: () {
+          clearSteams();
+          close(context, null);
+        },
         icon: const Icon(Icons.arrow_back_ios_new_rounded));
   }
 
@@ -39,8 +65,11 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return FutureBuilder(
-        future: searchMovies(query),
+    _onQueryChanged(query);
+
+    return StreamBuilder(
+        // future: searchMovies(query),
+        stream: debouncedMovies.stream,
         builder: (context, snapshot) {
           final movies = snapshot.data ?? [];
 
@@ -49,7 +78,10 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
               itemBuilder: (context, index) {
                 return _MovieItem(
                   movie: movies[index],
-                  onMovieSelected: close,
+                  onMovieSelected: (context, movie) {
+                    clearSteams();
+                    close(context, movie);
+                  },
                 );
               });
         });
