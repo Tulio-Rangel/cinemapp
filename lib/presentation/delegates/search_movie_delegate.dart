@@ -41,6 +41,28 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   @override
   String get searchFieldLabel => 'Buscar película';
 
+  //* Abstraccion del widget que se devuelve en el result y suggestions (que son practicamente lo mismo)
+  Widget _buildResultsAndSuggestions() {
+    return StreamBuilder(
+        initialData: initialMovies,
+        stream: debouncedMovies.stream,
+        builder: (context, snapshot) {
+          final movies = snapshot.data ?? [];
+
+          return ListView.builder(
+              itemCount: movies.length,
+              itemBuilder: (context, index) {
+                return _MovieItem(
+                  movie: movies[index],
+                  onMovieSelected: (context, movie) {
+                    clearSteams();
+                    close(context, movie);
+                  },
+                );
+              });
+        });
+  }
+
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -65,49 +87,14 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return StreamBuilder(
-        initialData: initialMovies,
-        stream: debouncedMovies.stream,
-        builder: (context, snapshot) {
-          final movies = snapshot.data ?? [];
-
-          return ListView.builder(
-              itemCount: movies.length,
-              itemBuilder: (context, index) {
-                return _MovieItem(
-                  movie: movies[index],
-                  onMovieSelected: (context, movie) {
-                    clearSteams();
-                    close(context, movie);
-                  },
-                );
-              });
-        });
+    return _buildResultsAndSuggestions();
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
     _onQueryChanged(query);
 
-    return StreamBuilder(
-        // future: searchMovies(query),
-        initialData: initialMovies,
-        stream: debouncedMovies.stream,
-        builder: (context, snapshot) {
-          final movies = snapshot.data ?? [];
-
-          return ListView.builder(
-              itemCount: movies.length,
-              itemBuilder: (context, index) {
-                return _MovieItem(
-                  movie: movies[index],
-                  onMovieSelected: (context, movie) {
-                    clearSteams();
-                    close(context, movie);
-                  },
-                );
-              });
-        });
+    return _buildResultsAndSuggestions();
   }
 }
 
