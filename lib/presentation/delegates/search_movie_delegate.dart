@@ -9,7 +9,7 @@ typedef SearchMoviesCallback = Future<List<Movie>> Function(String query);
 
 class SearchMovieDelegate extends SearchDelegate<Movie?> {
   final SearchMoviesCallback searchMovies;
-  final List<Movie>
+  List<Movie>
       initialMovies; //* Lista de peliculas que fueron buscadas previamente
 
   StreamController<List<Movie>> debouncedMovies = StreamController.broadcast();
@@ -33,6 +33,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
       // }
 
       final movies = await searchMovies(query);
+      initialMovies = movies;
       debouncedMovies.add(movies);
     });
   }
@@ -64,7 +65,24 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return const Text('buildResults');
+    return StreamBuilder(
+        initialData: initialMovies,
+        stream: debouncedMovies.stream,
+        builder: (context, snapshot) {
+          final movies = snapshot.data ?? [];
+
+          return ListView.builder(
+              itemCount: movies.length,
+              itemBuilder: (context, index) {
+                return _MovieItem(
+                  movie: movies[index],
+                  onMovieSelected: (context, movie) {
+                    clearSteams();
+                    close(context, movie);
+                  },
+                );
+              });
+        });
   }
 
   @override
