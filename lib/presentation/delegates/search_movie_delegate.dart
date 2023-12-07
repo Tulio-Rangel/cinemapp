@@ -1,9 +1,10 @@
 import 'dart:async';
 
-import 'package:cinemapp/config/helpers/human_formats.dart';
 import 'package:flutter/material.dart';
+import 'package:cinemapp/config/helpers/human_formats.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:cinemapp/domain/entities/movie.dart';
+import 'package:go_router/go_router.dart';
 
 typedef SearchMoviesCallback = Future<List<Movie>> Function(String query);
 
@@ -130,7 +131,8 @@ class _MovieItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        onMovieSelected(context, movie);
+        context.push('/home/0/movie/${movie.id}');
+        //onMovieSelected(context, movie);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
