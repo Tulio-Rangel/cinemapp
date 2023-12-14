@@ -131,8 +131,8 @@ class _MovieItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        context.push('/home/0/movie/${movie.id}');
-        //onMovieSelected(context, movie);
+        // context.push('/home/0/movie/${movie.id}');
+        onMovieSelected(context, movie);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
