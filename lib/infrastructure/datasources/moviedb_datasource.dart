@@ -1,9 +1,8 @@
 //* Archivo para interactuar con The MovieDB
 // *Implementacion (impl) del datasource
 
-import 'package:cinemapp/infrastructure/models/moviedb/movie_details.dart';
 import 'package:dio/dio.dart';
-
+import 'package:cinemapp/infrastructure/models/moviedb/movie_details.dart';
 import 'package:cinemapp/config/constants/environment.dart';
 import 'package:cinemapp/infrastructure/mappers/movie_mapper.dart';
 import 'package:cinemapp/infrastructure/models/moviedb/moviedb_response.dart';

@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../domain/entities/movie.dart';
 import '../providers.dart';
 

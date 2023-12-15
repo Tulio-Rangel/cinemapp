@@ -1,6 +1,5 @@
 import 'package:cinemapp/domain/entities/movie.dart';
 import 'package:cinemapp/infrastructure/models/moviedb/movie_moviedb.dart';
-
 import '../models/moviedb/movie_details.dart';
 
 class MovieMapper {

@@ -1,6 +1,6 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cinemapp/domain/entities/movie.dart';
 import 'package:cinemapp/presentation/providers/providers.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //* Estado del query de la busqueda
 final searchQueryProvider = StateProvider<String>((ref) => '');

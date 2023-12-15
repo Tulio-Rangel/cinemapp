@@ -1,8 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:cinemapp/domain/datasources/actors_datasource.dart';
 import 'package:cinemapp/domain/entities/actor.dart';
 import 'package:cinemapp/infrastructure/mappers/actor_mapper.dart';
 import 'package:cinemapp/infrastructure/models/moviedb/credits_response.dart';
-import 'package:dio/dio.dart';
 
 import '../../config/constants/environment.dart';
 

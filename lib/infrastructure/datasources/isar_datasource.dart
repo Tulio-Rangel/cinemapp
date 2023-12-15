@@ -1,7 +1,7 @@
-import 'package:cinemapp/domain/datasources/local_storage_datasource.dart';
-import 'package:cinemapp/domain/entities/movie.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:cinemapp/domain/datasources/local_storage_datasource.dart';
+import 'package:cinemapp/domain/entities/movie.dart';
 
 class IsarDatasource extends LocalStorageDataSource {
   late Future<Isar> db;
