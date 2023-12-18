@@ -1,6 +1,9 @@
 //* Archivo para interactuar con The MovieDB
 // *Implementacion (impl) del datasource
 
+import 'package:cinemapp/domain/entities/video.dart';
+import 'package:cinemapp/infrastructure/mappers/video_mapper.dart';
+import 'package:cinemapp/infrastructure/models/moviedb/moviedb_videos.dart';
 import 'package:dio/dio.dart';
 import 'package:cinemapp/infrastructure/models/moviedb/movie_details.dart';
 import 'package:cinemapp/config/constants/environment.dart';
@@ -71,8 +74,9 @@ class MoviedbDatasource extends MoviesDatasource {
     //* Se obtiene la informacion de la pelicula
     final response = await dio.get('/movie/$id');
     //* Si el id no existe se lanza una excepcion
-    if (response.statusCode != 200)
+    if (response.statusCode != 200) {
       throw Exception('Movie with id $id not found');
+    }
 
     //* Se mapea la respuesta al modelo de MovieDetail
     final movieDetails = MovieDetails.fromJson(response.data);
@@ -92,5 +96,27 @@ class MoviedbDatasource extends MoviesDatasource {
         await dio.get('/search/movie', queryParameters: {'query': query});
 
     return _jsonToMovies(response.data);
+  }
+
+  @override
+  Future<List<Movie>> getSimilarMovies(int movieId) async {
+    final response = await dio.get('/movie/$movieId/similar');
+    return _jsonToMovies(response.data);
+  }
+
+  @override
+  Future<List<Video>> getYoutubeVideosById(int movieId) async {
+    final response = await dio.get('/movie/$movieId/videos');
+    final moviedbVideosReponse = MoviedbVideosResponse.fromJson(response.data);
+    final videos = <Video>[];
+
+    for (final moviedbVideo in moviedbVideosReponse.results) {
+      if (moviedbVideo.site == 'YouTube') {
+        final video = VideoMapper.moviedbVideoToEntity(moviedbVideo);
+        videos.add(video);
+      }
+    }
+
+    return videos;
   }
 }

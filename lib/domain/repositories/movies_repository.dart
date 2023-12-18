@@ -1,5 +1,6 @@
 //*El repositorio es quien va a llamar el datasource
 import 'package:cinemapp/domain/entities/movie.dart';
+import 'package:cinemapp/domain/entities/video.dart';
 
 abstract class MoviesRepository {
   Future<List<Movie>> getNowPlaying({int page = 1});
@@ -13,4 +14,8 @@ abstract class MoviesRepository {
   Future<Movie> getMovieById(String id);
 
   Future<List<Movie>> searchMovies(String query);
+
+  Future<List<Movie>> getSimilarMovies(int movieId);
+
+  Future<List<Video>> getYoutubeVideosById(int movieId);
 }
