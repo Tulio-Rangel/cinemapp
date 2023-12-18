@@ -41,6 +41,31 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
         .values
         .toList(); //* Convierto el mapa en una lista
 
+    if (favoritesMovies.isEmpty) {
+      final colors = Theme.of(context).colorScheme;
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.favorite_outline_sharp,
+              size: 60,
+              color: colors.primary,
+            ),
+            Text(
+              'Ohhh no!!!',
+              style: TextStyle(fontSize: 30, color: colors.primary),
+            ),
+            const Text(
+              'No tienes películas favoritas',
+              style: TextStyle(fontSize: 20, color: Colors.black45),
+            )
+          ],
+        ),
+      );
+    }
+
     return Scaffold(
         body:
             MovieMasonry(loadNextPage: loadNextPage, movies: favoritesMovies));
