@@ -25,7 +25,7 @@ class MoviesSlideshow extends StatelessWidget {
         itemCount: movies.length,
         itemBuilder: (context, index) => _Slide(movie: movies[index]),
         itemWidth: 300,
-        layout: SwiperLayout.STACK,
+        // layout: SwiperLayout.STACK,
       ),
     );
   }
