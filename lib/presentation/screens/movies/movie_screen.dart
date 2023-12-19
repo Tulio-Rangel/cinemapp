@@ -73,6 +73,7 @@ class _CustomSliverAppBar extends ConsumerWidget {
     final isFavoriteFuture = ref.watch(isFavoriteProvider(movie.id));
 
     final size = MediaQuery.of(context).size;
+    final colors = Theme.of(context).colorScheme;
 
     return SliverAppBar(
       backgroundColor: Colors.black,
@@ -89,9 +90,9 @@ class _CustomSliverAppBar extends ConsumerWidget {
           },
           icon: isFavoriteFuture.when(
               data: (isFavorite) => isFavorite
-                  ? const Icon(
+                  ? Icon(
                       Icons.favorite_rounded,
-                      color: Colors.red,
+                      color: colors.primary,
                     )
                   : const Icon(Icons.favorite_border_rounded),
               error: (_, __) => throw UnimplementedError(),
